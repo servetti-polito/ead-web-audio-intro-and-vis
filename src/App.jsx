@@ -1,10 +1,19 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 const audioCtx = new AudioContext();
 
 function App() {
 
+  const [audioNodes, setAudioNodes] = useState({
+    osc1: new OscillatorNode(audioCtx)
+  })
+
   const [audioContextState, setAudioContextState] = useState( audioCtx.state == "running"  )
+
+  useEffect( () => {
+    audioNodes.osc1.connect(audioCtx.destination);
+    audioNodes.osc1.start();
+  }, [])
 
   function handleAudioContextStateChange(ev) {  
     setAudioContextState(ev.target.checked);  
