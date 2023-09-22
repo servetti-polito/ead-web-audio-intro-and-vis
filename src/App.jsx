@@ -1,26 +1,10 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 const audioCtx = new AudioContext();
 
 function App() {
 
   const [audioContextState, setAudioContextState] = useState( audioCtx.state == "running"  )
-
-  /*
-  useEffect( () => {
-    const update = async () => {
-      if (audioContextState) {
-        await audioCtx.resume();
-        console.log('resumed', audioCtx);
-       } else { 
-        await audioCtx.suspend(); 
-        console.log('suspended', audioCtx);
-       }
-    };
-    update();    
-  }, [audioContextState]);
-  */
-  
 
   function handleAudioContextStateChange(ev) {  
     setAudioContextState(ev.target.checked);  
@@ -34,7 +18,7 @@ function App() {
       <label htmlFor="audioContextState">AudioContext state: {audioContextState}</label>
       <input type="checkbox" id="audioContextState" name="audioContextState"
         checked={audioContextState.flag} onChange={ (ev) => handleAudioContextStateChange(ev) } />
-      {/* audioCtx.state */}
+      {/* audioCtx.state */ /* WARNING: state is not timely updated in the view */}
     </>
   )
 }
