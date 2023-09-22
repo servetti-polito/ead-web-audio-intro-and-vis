@@ -8,12 +8,12 @@ function App() {
     osc1: new OscillatorNode(audioCtx)
   })
 
-  const [audioContextState, setAudioContextState] = useState( audioCtx.state == "running"  )
-
   useEffect( () => {
     audioNodes.osc1.connect(audioCtx.destination);
     audioNodes.osc1.start();
   }, [])
+
+  const [audioContextState, setAudioContextState] = useState( audioCtx.state == "running"  )
 
   function handleAudioContextStateChange(ev) {  
     setAudioContextState(ev.target.checked);  
@@ -26,7 +26,7 @@ function App() {
       <h1>EAD</h1>
       <label htmlFor="audioContextState">AudioContext state: {audioContextState}</label>
       <input type="checkbox" id="audioContextState" name="audioContextState"
-        checked={audioContextState.flag} onChange={ (ev) => handleAudioContextStateChange(ev) } />
+        checked={audioContextState} onChange={ (ev) => handleAudioContextStateChange(ev) } />
       {/* audioCtx.state */ /* WARNING: state is not timely updated in the view */}
     </>
   )
