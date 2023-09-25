@@ -20,7 +20,7 @@ function App() {
     const update = async () => {
       if (audioNodes == null) {
         console.log('set AudioNodes');
-        const impulseResponse = await fetchAudioBuffer('/1a_marble_hall.wav');
+        const impulseResponse = await fetchAudioBuffer('/media/1a_marble_hall.wav');
         setAudioNodes(() => ({
           audio1: new MediaElementAudioSourceNode(audioCtx, { mediaElement: audioEl.current }),
           convolver1: new ConvolverNode(audioCtx, { buffer:  impulseResponse }),
@@ -59,7 +59,7 @@ function App() {
   const audioTagWithButtonJSX = () => (
     <>
       <div> <p>
-        <audio id="audio" ref={audioEl} loop controls src="/singing.mp3" style={{ width: "50%" }}> </audio>
+        <audio id="audio" ref={audioEl} loop  src="/media/singing.mp3" style={{ width: "50%" }}> </audio>
       </p> </div>
       <div> <p>
         <button id="play" type="button" onClick={handlePlayBtnClick}>Play/Pause</button>
