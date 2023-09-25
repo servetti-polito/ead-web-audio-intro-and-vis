@@ -1,35 +1,47 @@
-import { useState, useEffect } from 'react';
-
-const audioCtx = new AudioContext();
+import { useState, useEffect, useRef } from 'react';
 
 function App() {
 
-  const [audioNodes, setAudioNodes] = useState({
-    osc1: new OscillatorNode(audioCtx)
-  })
+  const [playing, setPlaying] = useState(false);
+  const [currentTime, setCurrentTime] = useState(0);
+
+  const audioEl = useRef(0);
+  // console.log(audioEl.current);
 
   useEffect( () => {
-    audioNodes.osc1.connect(audioCtx.destination);
-    audioNodes.osc1.start();
+    audioEl.current.addEventListener('timeupdate', () => {
+      setCurrentTime(audioEl.current.currentTime);
+    })
+
+    // needed to sync app state with player
+    audioEl.current.addEventListener('play', () => { setPlaying(true); })
+    audioEl.current.addEventListener('pause', () => { setPlaying(false) })
   }, [])
 
-  const [audioContextState, setAudioContextState] = useState( audioCtx.state == "running"  )
 
-  function handleAudioContextStateChange(ev) {  
-    setAudioContextState(ev.target.checked);  
-    if (ev.target.checked) audioCtx.resume();
-    else audioCtx.suspend(); 
+  function handlePlayBtnClick() {
+    setPlaying(!playing); // not really needed because of the event handlers play and pause
+    if (playing) audioEl.current.pause();
+    else audioEl.current.play();
   }
 
   return (
     <>
-      <h1>EAD</h1>
-      <label htmlFor="audioContextState">AudioContext state: {audioContextState}</label>
-      <input type="checkbox" id="audioContextState" name="audioContextState"
-        checked={audioContextState} onChange={ (ev) => handleAudioContextStateChange(ev) } />
-      {/* audioCtx.state */ /* WARNING: state is not timely updated in the view */}
+      <div>
+        <p>
+        <audio id="audio" ref={audioEl} loop controls src="/media/singing.mp3" style={{ width: "50%" }}> </audio>
+        </p>
+      </div>
+      <div>
+        <p>
+        <button id="play" type="button" onClick={handlePlayBtnClick}>Play/Pause</button>
+        &nbsp;
+        <span>CurrentTime: {currentTime}</span>
+        </p>
+      </div>
     </>
   )
+
 }
 
 export default App

@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { AudioContextComponent, ToggleTextButton, CheckboxController  } from './Tools.jsx'
 
 
 async function fetchAudioBuffer(url) {
@@ -12,61 +13,20 @@ const audioCtx = new AudioContext();
 function App() {
 
   const audioEl = useRef(0);
-  // console.log(audioEl.current);
 
-  const [audioNodes, setAudioNodes] = useState(null)
+  const [audioNodes, setAudioNodes] = useState({})
 
   useEffect(() => {
     const update = async () => {
-      if (audioNodes == null) {
-        console.log('set AudioNodes');
         const impulseResponse = await fetchAudioBuffer('/media/1a_marble_hall.wav');
-        setAudioNodes(() => ({
-          audio1: new MediaElementAudioSourceNode(audioCtx, { mediaElement: audioEl.current }),
-          convolver1: new ConvolverNode(audioCtx, { buffer:  impulseResponse }),
-          gain1: new GainNode(audioCtx, { gain: 0.5 } )
-        }))
-      } else {
-        console.log('connect AudioNodes', audioNodes.audio1);
-        audioNodes.audio1.connect(audioNodes.convolver1).connect(audioNodes.gain1).connect(audioCtx.destination);
-        // audioEl.current.play();
-      }
+        const audio = new MediaElementAudioSourceNode(audioCtx, { mediaElement: audioEl.current });
+        const convolver = new ConvolverNode(audioCtx, { buffer:  impulseResponse });
+        const gain = new GainNode(audioCtx, { gain: 0.5 } );
+        audio.connect(convolver).connect(gain).connect(audioCtx.destination);
+        setAudioNodes((audioNodes) => ({...audioNodes, audio, convolver, gain}))
     }
     update();
-  }, [audioNodes])
-
-
-  const [audioContextState, setAudioContextState] = useState(audioCtx.state == "running")
-  function handleAudioContextStateChange(ev) {
-    setAudioContextState(ev.target.checked);
-    if (ev.target.checked) audioCtx.resume();
-    else audioCtx.suspend();
-  }
-  const audioContextCheckboxJSX = () => (
-    <div>
-      <label htmlFor="audioContextState">AudioContext state: {audioContextState}</label>
-      <input type="checkbox" id="audioContextState" name="audioContextState"
-        checked={audioContextState} onChange={(ev) => handleAudioContextStateChange(ev)} />
-    </div>
-  );
-
-  const [playing, setPlaying] = useState(false);
-  function handlePlayBtnClick() {
-    setPlaying(!playing);
-    if (playing) audioEl.current.pause();
-    else audioEl.current.play();
-  }
-  const audioTagWithButtonJSX = () => (
-    <>
-      <div> <p>
-        <audio id="audio" ref={audioEl} loop  src="/media/singing.mp3" style={{ width: "50%" }}> </audio>
-      </p> </div>
-      <div> <p>
-        <button id="play" type="button" onClick={handlePlayBtnClick}>Play/Pause</button>
-      </p></div>
-    </>
-  );
-
+  }, [])
 
 
   const [currentTime, setCurrentTime] = useState(0);
@@ -76,39 +36,33 @@ function App() {
       setCurrentTime(audioEl.current.currentTime);
     })
   }, [])
-  const currentTimeJSX = () => (
-    <div> <p>
-      <span>CurrentTime: {currentTime}</span>
-    </p> </div>
-  );
 
-  const [convolverState, setConvolverState] = useState(true);
-  function handleConvolverStateChange(ev) {
-    setConvolverState(ev.target.checked);
-    if (ev.target.checked) {
-      audioNodes.audio1.disconnect();
-      audioNodes.audio1.connect(audioNodes.convolver1).connect(audioNodes.gain1).connect(audioCtx.destination);
+
+  function handleConvolverStateChange(checked) {
+    if (checked) {
+      audioNodes.audio.disconnect();
+      audioNodes.audio.connect(audioNodes.convolver).connect(audioNodes.gain).connect(audioCtx.destination);
     } else {
       // skip convolver
-      audioNodes.convolver1.disconnect(); audioNodes.audio1.disconnect();
-      audioNodes.audio1.connect(audioCtx.destination);
+      audioNodes.convolver.disconnect(); audioNodes.audio.disconnect();
+      audioNodes.audio.connect(audioCtx.destination);
     }
   }
-  const convolverCheckboxJSX = () => (
-    <div>
-      <label htmlFor="convolverState">Convolver state: {audioContextState}</label>
-      <input type="checkbox" id="convolverState" name="convolverState"
-        checked={convolverState} onChange={handleConvolverStateChange} />
-    </div>
-  );
 
 
   return (
     <>
-      {audioContextCheckboxJSX()}
-      {audioTagWithButtonJSX()}
-      {currentTimeJSX()}
-      {convolverCheckboxJSX()}
+      <p></p>
+      <AudioContextComponent audioCtx={audioCtx} />
+      <p></p>
+      <audio id="audio" ref={audioEl} loop  src="/media/singing.mp3" style={{ width: "50%" }}> </audio>
+      <p></p>
+      <ToggleTextButton handleClick={[ () => audioEl.current.play(), () => audioEl.current.pause() ]}
+        text={["Play", "Pause"]} />
+      <p></p>
+      <span>CurrentTime: {currentTime}</span>
+      <p></p>
+      <CheckboxController init={true} textLabel={"Convolver state"} handleChange={handleConvolverStateChange}/>
     </>
   )
 

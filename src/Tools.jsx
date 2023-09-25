@@ -4,9 +4,9 @@ import { useState, useEffect } from 'react';
 
 function AudioContextComponent(props) {
   const audioCtx = props.audioCtx;
-  const [audioContextState, setAudioContextState] = useState( audioCtx.state == 'running' );
+  const [audioContextState, setAudioContextState] = useState(audioCtx.state == 'running');
 
-  useEffect( () => {
+  useEffect(() => {
     audioCtx.addEventListener('statechange', () => {
       console.log('statechange', audioCtx.state);
       setAudioContextState(audioCtx.state == 'running')
@@ -19,44 +19,64 @@ function AudioContextComponent(props) {
     if (checked) audioCtx.resume(); else audioCtx.suspend();
   }
 
-  return(
+  return (
     <div>
-    <label htmlFor="audioContextState">AudioContext state: {audioContextState}</label>
-    <input type="checkbox" id="audioContextState" name="audioContextState"
-      checked={audioContextState} onChange={ (ev) => handleAudioContextStateChange(ev) } />
-    {/* audioCtx.state */ /* WARNING: state is not timely updated in the view */}
+      <label htmlFor="audioContextState">AudioContext state: {audioContextState}</label>
+      <input type="checkbox" id="audioContextState" name="audioContextState"
+        checked={audioContextState} onChange={(ev) => handleAudioContextStateChange(ev)} />
+      {/* audioCtx.state */ /* WARNING: state is not timely updated in the view */}
     </div>
   )
-  
+
 }
 
 
+function ToggleTextButtonFlag(props) {
+  const flag = props.flag;
+  return (
+    <div>
+      <button onClick={() => { props.handleClick[+flag]() }} >{props.text[+flag]}</button>
+    </div>
+  )
+}
+
 function ToggleTextButton(props) {
   const [flag, setFlag] = useState(false);
-  return(
+  return (
     <div>
-    <button onClick={() => { setFlag(!flag); props.handleClick[+flag]()}} >{props.text[+flag]}</button>
+      <button onClick={() => { setFlag(!flag); props.handleClick[+flag]() }} >{props.text[+flag]}</button>
     </div>
+  )
+}
+
+function CheckboxController(props) {
+  const [flag, setFlag] = useState(props.init);
+  return (
+        <div>
+        <label htmlFor="flag">{props.textLabel}: {flag}</label>
+        <input type="checkbox" id="flag" name="flag"
+          checked={flag} onChange={ () => { setFlag(!flag); props.handleChange(!flag) } }/>
+      </div>
   )
 }
 
 function OneTimeButton(props) {
   const [flag, setFlag] = useState(false);
-  return(
+  return (
     <div>
-    <button onClick={() => { setFlag(true); props.handleClick()}} disabled={flag}>{props.children}</button>
-  </div>
+      <button onClick={() => { setFlag(true); props.handleClick() }} disabled={flag}>{props.children}</button>
+    </div>
   )
 }
 
 function Slider(props) {
-  return(
+  return (
     <div>
-    <input type="range" id="osc1Frequency" name="osc1Frequency" min="220" max="1760" step="1" value={props.value}
-      onChange={props.handleChange} />
-    <label htmlFor="osc1Frequency"> osc1Frequency: {props.value} </label>
-  </div>
+      <input type="range" id="osc1Frequency" name="osc1Frequency" min="220" max="1760" step="1" value={props.value}
+        onChange={props.handleChange} />
+      <label htmlFor="osc1Frequency"> osc1Frequency: {props.value} </label>
+    </div>
   )
 }
 
-export  { Slider, OneTimeButton, ToggleTextButton, AudioContextComponent} ;
+export { Slider, OneTimeButton, ToggleTextButton, ToggleTextButtonFlag, CheckboxController, AudioContextComponent };
