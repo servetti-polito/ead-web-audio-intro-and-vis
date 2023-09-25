@@ -10,14 +10,17 @@ function App() {
 
   useEffect( () => {
     audioEl.current.addEventListener('timeupdate', () => {
-      // console.log(audioEl.current.currentTime)
       setCurrentTime(audioEl.current.currentTime);
     })
+
+    // needed to sync app state with player
+    audioEl.current.addEventListener('play', () => { setPlaying(true); })
+    audioEl.current.addEventListener('pause', () => { setPlaying(false) })
   }, [])
 
 
   function handlePlayBtnClick() {
-    setPlaying(!playing);
+    setPlaying(!playing); // not really needed because of the event handlers play and pause
     if (playing) audioEl.current.pause();
     else audioEl.current.play();
   }
@@ -26,7 +29,7 @@ function App() {
     <>
       <div>
         <p>
-        <audio id="audio" ref={audioEl} loop controls src="/singing.mp3" style={{ width: "50%" }}> </audio>
+        <audio id="audio" ref={audioEl} loop controls src="/media/singing.mp3" style={{ width: "50%" }}> </audio>
         </p>
       </div>
       <div>
