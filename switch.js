@@ -5,9 +5,10 @@ import process from 'process';
 
 //const exec = promisify(execCb);
 
+const appPath = './src/App.jsx';
 if(fs.existsSync(process.argv[2])) {
-  fs.rmSync('./src/App.jsx');
-  fs.symlinkSync(process.argv[2].split('/').slice(1).join('/'), './src/App.jsx', 'file');
+  if(fs.existsSync(appPath)) fs.rmSync(appPath);
+  fs.symlinkSync(process.argv[2].split('/').slice(1).join('/'), appPath, 'file');
 }
 
 //const { error, stdout, stderr } = await exec("npm run dev");
