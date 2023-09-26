@@ -37,7 +37,11 @@ function App() {
       <p></p>
       <ToggleTextButton handleClick={[start,stop]} text={["Start","Stop"]}/>
       <p></p>
-      <Slider value={osc1Frequency} handleChange={(ev) => setOsc1Frequency(ev.target.value)}></Slider>
+      <Slider label={"Osc1 Frequency"} 
+        name="osc1Frequency" min={220} max={3520} step={1} 
+        value={osc1Frequency}
+        handleChange={(ev) => setOsc1Frequency(ev.target.value)}
+      />
     </>
   )
 }

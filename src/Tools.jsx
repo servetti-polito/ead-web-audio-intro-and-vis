@@ -40,11 +40,16 @@ function ToggleTextButtonFlag(props) {
   )
 }
 
+
+
 function ToggleTextButton(props) {
+  // <ToggleTextButton handleClick={[ () => audioEl.current.play(), () => audioEl.current.pause() ]} text={["Play", "Pause"]} />
   const [flag, setFlag] = useState(false);
   return (
     <div>
-      <button onClick={() => { setFlag(!flag); props.handleClick[+flag]() }} >{props.text[+flag]}</button>
+      <button onClick={() => { setFlag(!flag); props.handleClick[+flag]() }} >
+        {props.text[+flag]}
+      </button>
     </div>
   )
 }
@@ -61,6 +66,7 @@ function CheckboxController(props) {
 }
 
 function OneTimeButton(props) {
+  // <OneTimeButton handleClick={start}>Start</OneTimeButton>
   const [flag, setFlag] = useState(false);
   return (
     <div>
@@ -69,12 +75,12 @@ function OneTimeButton(props) {
   )
 }
 
-function Slider(props) {
+function Slider({handleChange, ...props}) {
+  //       <Slider label={"osc1Frequency"} value={osc1Frequency} handleChange={(ev) => setOsc1Frequency(ev.target.value)}></Slider>
   return (
     <div>
-      <input type="range" id="osc1Frequency" name="osc1Frequency" min="220" max="1760" step="1" value={props.value}
-        onChange={props.handleChange} />
-      <label htmlFor="osc1Frequency"> osc1Frequency: {props.value} </label>
+      <input id={props.name} type="range" {...props} onChange={handleChange} />
+      <label htmlFor={props.name}> {props.label}: {props.value} </label>
     </div>
   )
 }
