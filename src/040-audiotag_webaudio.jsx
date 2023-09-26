@@ -29,15 +29,6 @@ function App() {
   }, [])
 
 
-  const [currentTime, setCurrentTime] = useState(0);
-  useEffect(() => {
-    audioEl.current.addEventListener('timeupdate', () => {
-      // console.log(audioEl.current.currentTime)
-      setCurrentTime(audioEl.current.currentTime);
-    })
-  }, [])
-
-
   function handleConvolverStateChange(checked) {
     if (checked) {
       audioNodes.audio.disconnect();
@@ -60,12 +51,29 @@ function App() {
       <ToggleTextButton handleClick={[ () => audioEl.current.play(), () => audioEl.current.pause() ]}
         text={["Play", "Pause"]} />
       <p></p>
-      <span>CurrentTime: {currentTime}</span>
+      <CurrentTime audioEl={audioEl} /> 
       <p></p>
       <CheckboxController init={true} textLabel={"Convolver state"} handleChange={handleConvolverStateChange}/>
     </>
   )
 
 }
+
+const CurrentTime = (props) => {
+  const audioEl = props.audioEl;
+  const [currentTime, setCurrentTime] = useState(0);
+  useEffect(() => {
+    audioEl.current.addEventListener('timeupdate', () => {
+      setCurrentTime(audioEl.current.currentTime);
+    })
+  }, [])
+
+  return (
+    <div>
+      Current time: {currentTime}
+    </div>
+  )
+}
+
 
 export default App

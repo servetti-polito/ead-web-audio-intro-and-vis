@@ -26,7 +26,6 @@ function App() {
       // connect
       bufferSrc.connect(audioCtx.destination);
       // audioNodes.bufferSrc.start();
-
       setAudioNodes((audioNodes) => ({ ...audioNodes, bufferSrc }))
     }
     update();

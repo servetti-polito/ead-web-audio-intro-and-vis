@@ -3,16 +3,9 @@ import { ToggleTextButton } from './Tools.jsx'
 
 function App() {
 
-  
-  const [currentTime, setCurrentTime] = useState(0);
-
   const audioEl = useRef(0);
 
   useEffect( () => {
-    audioEl.current.addEventListener('timeupdate', () => {
-      setCurrentTime(audioEl.current.currentTime);
-    })
-
     /*
     // needed to sync app state with player
     // const [playing, setPlaying] = useState(false);
@@ -34,12 +27,27 @@ function App() {
           text={["Play", "Pause"]} />
       </div>
       <p></p>
-      <div>
-        <span>CurrentTime: {currentTime}</span>
-      </div>       
+      <CurrentTime audioEl={audioEl} />      
     </>
   )
 
 }
+
+const CurrentTime = (props) => {
+  const audioEl = props.audioEl;
+  const [currentTime, setCurrentTime] = useState(0);
+  useEffect(() => {
+    audioEl.current.addEventListener('timeupdate', () => {
+      setCurrentTime(audioEl.current.currentTime);
+    })
+  }, [])
+
+  return (
+    <div>
+      Current time: {currentTime}
+    </div>
+  )
+}
+
 
 export default App

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/prop-types */
 
 import { useEffect, useRef } from 'react';
@@ -8,7 +9,7 @@ function AudioAnalyser(props) {
 
   const waveformPlot = useRef(null);
   const spectrumPlot = useRef(null);
-
+  
   useEffect( () => {
     console.log('useEffect', props.analyser);
     let interval;
@@ -77,7 +78,7 @@ function spectrumPlotFn(htmlEl, spectrum, sampleRate) {
       {
         margin: { t: 0 },
         xaxis: { title: { text: 'Frequency (Hz)' }, automargin: true, range: [0, 8000] },
-        yaxis: { title: { text: 'Magnitude (dB)' }, automargin: true, range: [-100, -30] },
+        yaxis: { title: { text: 'Magnitude (dB)' }, automargin: true, range: [-80, -10] },
       }
     );
   }
