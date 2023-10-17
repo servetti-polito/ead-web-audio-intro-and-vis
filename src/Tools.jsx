@@ -85,4 +85,19 @@ function Slider({handleChange, ...props}) {
   )
 }
 
-export { Slider, OneTimeButton, ToggleTextButton, ToggleTextButtonFlag, CheckboxController, AudioContextComponent };
+function Select({handleChange, ...props}) {
+    //       <Slider label={"osc1Frequency"} value={osc1Frequency} handleChange={(ev) => setOsc1Frequency(ev.target.value)}></Slider>
+    const values = props.values.map((item, index) => {
+       return <option value={item} name={item} key={index}>{item}</option>
+    });
+    return (
+        <div>
+            <label htmlFor={props.name}> {props.label}: {props.value} </label>
+            <select id={props.name} {...props} onChange={handleChange}>
+                { values }
+            </select>
+        </div>
+    )
+}
+
+export { Select, Slider, OneTimeButton, ToggleTextButton, ToggleTextButtonFlag, CheckboxController, AudioContextComponent };
