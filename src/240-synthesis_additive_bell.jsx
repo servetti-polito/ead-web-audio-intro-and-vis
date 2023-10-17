@@ -1,8 +1,8 @@
 /* eslint-disable react/prop-types */
 
-import {useState, useEffect} from 'react';
+import {useState} from 'react';
 import './App.css';
-import {AudioContextComponent, Slider, ToggleTextButton, Select} from './Tools.jsx'
+import {AudioContextComponent, Slider, ToggleTextButton} from './Tools.jsx'
 import {AudioAnalyser} from "./AudioAnalyser.jsx";
 
 const audioCtx = new AudioContext();
@@ -10,7 +10,6 @@ const audioCtx = new AudioContext();
 function App() {
 
     const defaultOsc1Frequency = 440;
-    const defaultOsc1Type = "sine";
     const oscFreq = [
         1,
         2,

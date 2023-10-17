@@ -4,12 +4,12 @@ import { useState, useEffect } from 'react';
 
 function AudioContextComponent(props) {
   const audioCtx = props.audioCtx;
-  const [audioContextState, setAudioContextState] = useState(audioCtx.state == 'running');
+  const [audioContextState, setAudioContextState] = useState(audioCtx.state === 'running');
 
   useEffect(() => {
     audioCtx.addEventListener('statechange', () => {
       console.log('statechange', audioCtx.state);
-      setAudioContextState(audioCtx.state == 'running')
+      setAudioContextState(audioCtx.state === 'running')
     });
   }, [])
 

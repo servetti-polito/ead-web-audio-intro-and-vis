@@ -1,8 +1,8 @@
 /* eslint-disable react/prop-types */
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import './App.css';
-import { AudioContextComponent, Slider, ToggleTextButton, Select} from './Tools.jsx'
+import { AudioContextComponent, Slider, ToggleTextButton} from './Tools.jsx'
 import {AudioAnalyser} from "./AudioAnalyser.jsx";
 
 const audioCtx = new AudioContext();
