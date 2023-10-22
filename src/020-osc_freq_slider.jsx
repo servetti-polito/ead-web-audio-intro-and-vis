@@ -8,12 +8,12 @@ const audioCtx = new AudioContext();
 
 function App() {
 
-  const defaultOsc1Frequency = 440;
+  const defaultOscFrequency = 440;
 
   const [audioNodes, setAudioNodes] = useState({})
 
   function start() {
-    const osc = new OscillatorNode(audioCtx, { frequency: osc1Frequency })
+    const osc = new OscillatorNode(audioCtx, { frequency: oscFrequency })
     osc.connect(audioCtx.destination);
     osc.start();
     setAudioNodes( (audioNodes) => ({...audioNodes, osc}))
@@ -24,10 +24,10 @@ function App() {
     setAudioNodes( (audioNodes) => ({...audioNodes, osc: null}))
   }
 
-  const [osc1Frequency, setOsc1Frequency] = useState(defaultOsc1Frequency);
+  const [oscFrequency, setOscFrequency] = useState(defaultOscFrequency);
 
   // executed every time a state changes
-  if(audioNodes?.osc) audioNodes.osc.frequency.value = osc1Frequency;
+  if(audioNodes?.osc) audioNodes.osc.frequency.value = oscFrequency;
 
   return (
     <>
@@ -39,8 +39,8 @@ function App() {
       <p></p>
       <Slider label={"Osc1 Frequency"} 
         name="osc1Frequency" min={220} max={3520} step={1} 
-        value={osc1Frequency}
-        handleChange={(ev) => setOsc1Frequency(ev.target.value)}
+        value={oscFrequency}
+        handleChange={(ev) => setOscFrequency(ev.target.value)}
       />
     </>
   )
