@@ -29,13 +29,13 @@ function App() {
         let gains = Array();
         const analyser = new AnalyserNode(audioCtx);
         // envelope node to control the decreasing of sound
-        const envelope = audioCtx.createGain();
+        const envelope = new GainNode(audioCtx);
         envelope.connect(audioCtx.destination);
         envelope.gain.value = 1;
 
         for (let i = 0; i < oscFreq.length; i++) {
             // gain node to avoid clipping (and adding same portion of wave)
-            gains.push(audioCtx.createGain());
+            gains.push(new GainNode(audioCtx));
             gains[i].gain.value = 1/oscFreq.length;
             osc.push(new OscillatorNode(audioCtx, {frequency: osc1Frequency * oscFreq[i]}));
 

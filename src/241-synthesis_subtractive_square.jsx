@@ -20,11 +20,11 @@ function App() {
         const analyser = new AnalyserNode(audioCtx);
         // envelope node to control the decreasing of sound
 
-        const osc = (new OscillatorNode(audioCtx, {frequency: oscFrequency }));
+        const osc = new OscillatorNode(audioCtx, {frequency: oscFrequency });
         osc.type = "square";
         osc.start();
 
-        const filter = audioCtx.createBiquadFilter();
+        const filter = new BiquadFilterNode(audioCtx);
         filter.type = "lowpass";
         filter.frequency.value = filterFrequency;
         filter.Q.value = defaultQValue;
