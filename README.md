@@ -27,3 +27,4 @@ Examples:
   - 243-synthesis_am_modulation.jsx
   - 244-synthesis_vibrato.jsx
   - 250-synthesis-fm-adv.jsx
+  - 260-synthesis_wavetable.jsx
