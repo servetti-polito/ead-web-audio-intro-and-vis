@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 
-import { useState, useEffect } from 'react';
+import {useEffect, useState} from 'react';
 
 function AudioContextComponent(props) {
   const audioCtx = props.audioCtx;
@@ -87,13 +87,14 @@ function Slider({handleChange, ...props}) {
 
 function Select({handleChange, ...props}) {
     //       <Slider label={"osc1Frequency"} value={osc1Frequency} handleChange={(ev) => setOsc1Frequency(ev.target.value)}></Slider>
+    const selected = props.selected;
     const values = props.values.map((item, index) => {
-       return <option value={item} name={item} key={index}>{item}</option>
+        return <option value={item} name={item} key={index} >{item}</option>;
     });
     return (
         <div>
             <label htmlFor={props.name}> {props.label}: {props.value} </label>
-            <select id={props.name} {...props} onChange={handleChange}>
+            <select id={props.name} {...props} onChange={handleChange} defaultValue={selected}>
                 { values }
             </select>
         </div>

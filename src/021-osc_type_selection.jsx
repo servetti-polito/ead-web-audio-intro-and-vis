@@ -9,7 +9,7 @@ const audioCtx = new AudioContext();
 function App() {
 
     const defaultOsc1Frequency = 440;
-    const defaultOsc1Type = "sine";
+    const defaultOsc1Type = "square";
 
     const [audioNodes, setAudioNodes] = useState({});
     const [osc1Frequency, setOsc1Frequency] = useState(defaultOsc1Frequency);
@@ -55,6 +55,7 @@ function App() {
             />
             <p></p>
             <Select label={"Osc1 Type"}
+                    selected={defaultOsc1Type}
                     values={["sine", "square", "sawtooth", "triangle"]}
                     handleChange={(ev) => {
                         setOsc1Type(ev.target.value);
