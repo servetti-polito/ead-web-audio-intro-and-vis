@@ -4,11 +4,12 @@ import {useState} from 'react';
 import './App.css';
 import {AudioContextComponent, Slider, ToggleTextButton} from './Tools.jsx'
 import {AudioAnalyser} from "./AudioAnalyser.jsx";
+import WAAClock from 'waaclock';
 
 const audioCtx = new AudioContext();
-
+const clock = new WAAClock(audioCtx);
+clock.start();
 function App() {
-
     const defaultOsc1Frequency = 440;
     const oscFreq = [
         1,
@@ -22,12 +23,26 @@ function App() {
 
     const [audioNodes, setAudioNodes] = useState({});
     const [osc1Frequency, setOsc1Frequency] = useState(defaultOsc1Frequency);
-
+    const [analyser, setAnalyzer] = useState(new AnalyserNode(audioCtx));
 
     function start() {
         let osc = Array();
         let gains = Array();
-        const analyser = new AnalyserNode(audioCtx);
+
+        const cTime = audioCtx.currentTime;
+        const rateDecrease = 1;
+        const eTime = cTime + 5*rateDecrease;
+
+        if (audioNodes?.osc) {
+            for (let i = 0; i < audioNodes.osc.length; i++) {
+                audioNodes.osc[i].disconnect();
+                audioNodes.gains[i] = null;
+             }
+            audioNodes.osc = null;
+            audioNodes.gains = null;
+            audioNodes.envelope = null;
+        }
+
         // envelope node to control the decreasing of sound
         const envelope = new GainNode(audioCtx);
 
@@ -38,39 +53,45 @@ function App() {
         for (let i = 0; i < oscFreq.length; i++) {
             // gain node to avoid clipping (and adding same portion of wave)
             gains.push(new GainNode(audioCtx));
-            //gains[i].gain.value = 1/oscFreq.length;
+            gains[i].gain.value = 1/oscFreq.length;
             osc.push(new OscillatorNode(audioCtx, {frequency: osc1Frequency * oscFreq[i]}));
 
             osc[i].connect(gains[i]);
             gains[i].connect(envelope);
         }
         // decrease starts 2 seconds after
-        envelope.gain.setTargetAtTime(0, audioCtx.currentTime, 2);
+        envelope.gain.setTargetAtTime(0, cTime, rateDecrease);
         envelope.connect(analyser);
 
         for (let i = 0; i < oscFreq.length; i++) {
-            osc[i].start();
+            osc[i].start(cTime);
         }
 
-        setAudioNodes((audioNodes) => ({...audioNodes, osc, gains, analyser}))
+        const event = reschedule(eTime, start);
+        setAudioNodes((audioNodes) => ({...audioNodes, osc, gains, event}))
+    }
+
+    function reschedule(when, fn) {
+        return clock.callbackAtTime(fn, when);
     }
 
     function stop() {
         for (let i = 0; i < audioNodes.osc.length; i++) {
             audioNodes.osc[i].disconnect();
         }
-
+        clock.stop();
+        audioNodes.event.cancel();
         setAudioNodes((audioNodes) => ({...audioNodes, osc: null, gains: null}))
     }
 
 
     // executed every time a state changes
     if (audioNodes?.osc) {
-        if (audioNodes.osc[0].frequency.value !== osc1Frequency)
-            for (let i = 0; i < oscFreq.length; i++) {
-                audioNodes.osc[i].frequency.value = osc1Frequency * oscFreq[i];
+         if (audioNodes.osc[0].frequency.value !== osc1Frequency) {
+             for (let i = 0; i < oscFreq.length; i++) {
+                  audioNodes.osc[i].frequency.value = osc1Frequency * oscFreq[i];
             }
-
+         }
     }
 
     return (
@@ -87,7 +108,7 @@ function App() {
                     handleChange={(ev) => setOsc1Frequency(ev.target.value)}
             />
             <p></p>
-            <AudioAnalyser analyser={audioNodes?.analyser} sampleRate={audioCtx?.sampleRate}/>
+            <AudioAnalyser analyser={analyser} sampleRate={audioCtx?.sampleRate}/>
         </>
     )
 }

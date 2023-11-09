@@ -10,7 +10,7 @@ const audioCtx = new AudioContext();
 function App() {
 
     const defaultOscFrequency = 440;
-    const defaultModulatorFrequency = 440;
+    const defaultModulatorFrequency = 100;
     const [audioNodes, setAudioNodes] = useState({});
     const [oscFrequency, setOscFrequency] = useState(defaultOscFrequency);
     const [modFrequency, setModFrequency] = useState(defaultModulatorFrequency);
@@ -62,7 +62,7 @@ function App() {
             />
             <p></p>
             <Slider label={"Modulator Frequency"}
-                    name="modFrequency" min={220} max={3520} step={1}
+                    name="modFrequency" min={20} max={3520} step={1}
                     value={modFrequency}
                     handleChange={(ev) => setModFrequency(ev.target.value)}
             />

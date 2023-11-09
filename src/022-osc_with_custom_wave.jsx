@@ -48,11 +48,13 @@ function App() {
 
     // executed every time a state changes
     if (audioNodes?.osc) {
-        if (audioNodes.osc.frequency.value !== osc1Frequency)
+        if (audioNodes.osc.frequency.value !== osc1Frequency) {
             audioNodes.osc.frequency.value = osc1Frequency;
 
-        const fourierConstants = gerateTable(osc1Frequency, 1);
-        audioNodes.osc.setPeriodicWave(audioCtx.createPeriodicWave(fourierConstants.real, fourierConstants.img));
+            const fourierConstants = gerateTable(osc1Frequency, 1);
+            audioNodes.osc.setPeriodicWave(audioCtx.createPeriodicWave(fourierConstants.real, fourierConstants.img));
+        }
+
     }
 
     return (

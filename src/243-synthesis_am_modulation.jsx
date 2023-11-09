@@ -9,7 +9,8 @@ const audioCtx = new AudioContext();
 
 function App() {
     const defaultOscFrequency = 440;
-    const defaultModulatorFrequency = 440;
+    const defaultKValue = 0.5;
+    const defaultModulatorFrequency = defaultKValue * defaultOscFrequency;
     const defaultModulatorGain = 1;
     const defaultAmpValue = 1;
     const [audioNodes, setAudioNodes] = useState({});
@@ -23,6 +24,7 @@ function App() {
         const osc = new OscillatorNode(audioCtx, {frequency: oscFrequency});
         osc.start();
         const modulator = new OscillatorNode(audioCtx, {frequency: modFrequency});
+        modulator.type = "square";
         modulator.start();
         const analyser = new AnalyserNode(audioCtx);
         // modulator gain -> to connect with modulator Oscillator
@@ -58,11 +60,14 @@ function App() {
 
     // executed every time a state changes
     if (audioNodes?.osc) {
-        if (audioNodes.osc.frequency.value !== oscFrequency)
+        if (audioNodes.osc.frequency.value !== oscFrequency) {
             audioNodes.osc.frequency.value = oscFrequency;
+            audioNodes.modulator.frequency.value = defaultKValue * oscFrequency;
+        }
 
-        if (audioNodes.modulator.frequency.value !== modFrequency)
-            audioNodes.modulator.frequency.value = modFrequency;
+
+        /*if (audioNodes.modulator.frequency.value !== modFrequency)
+            audioNodes.modulator.frequency.value = modFrequency;*/
 
         if (audioNodes.constantGain.gain.value !== ampValue)
             audioNodes.constantGain.gain.value = ampValue;

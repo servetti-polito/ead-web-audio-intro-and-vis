@@ -15,6 +15,7 @@ Examples:
   - 020-osc1_freq_slider.jsx
   - 021-osc_type_selection.jsx
   - 022-osc_with_custom_wave.jsx
+  - 023-osc_type_selection_with_extras.jsx
   - 030-audiotag.jsx
   - 040-audiotag_webaudio.jsx
   - 050-buffersource_synth.jsx
@@ -28,3 +29,4 @@ Examples:
   - 244-synthesis_vibrato.jsx
   - 250-synthesis-fm-adv.jsx
   - 260-synthesis_wavetable.jsx
+  - 270-synthesis_additive_bell_with_waaclock.jsx
