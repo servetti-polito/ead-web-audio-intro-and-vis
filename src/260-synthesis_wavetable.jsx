@@ -68,7 +68,7 @@ function App() {
 
     return (
         <>
-            <h1>Oscillator with frequency slider and type selector</h1>
+            <h1>Wave Table Synthesis</h1>
             <p></p>
             <AudioContextComponent audioCtx={audioCtx}/>
             <p></p>
@@ -83,7 +83,7 @@ function App() {
                     }}/>
             <p></p>
             <Slider label={"Gain"}
-                    name="osc1Frequency" min={0} max={5} step={0.1}
+                    name="gainValue" min={0} max={5} step={0.1}
                     value={gainValue}
                     handleChange={(ev) => setGainValue(ev.target.value)}
             />

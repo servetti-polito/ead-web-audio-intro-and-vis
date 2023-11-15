@@ -65,6 +65,7 @@ function App() {
 
         for (let i = 0; i < oscFreq.length; i++) {
             osc[i].start(cTime);
+            //osc[i].stop(eTime);
         }
 
         const event = reschedule(eTime, start);
@@ -79,8 +80,8 @@ function App() {
         for (let i = 0; i < audioNodes.osc.length; i++) {
             audioNodes.osc[i].disconnect();
         }
-        clock.stop();
-        audioNodes.event.cancel();
+        //clock.stop();
+        audioNodes.event.clear();
         setAudioNodes((audioNodes) => ({...audioNodes, osc: null, gains: null}))
     }
 

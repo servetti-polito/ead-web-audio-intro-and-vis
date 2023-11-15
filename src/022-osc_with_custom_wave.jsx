@@ -59,7 +59,7 @@ function App() {
 
     return (
         <>
-            <h1>Oscillator with frequency slider and type selector</h1>
+            <h1>Oscillator with custome wave</h1>
             <p></p>
             <AudioContextComponent audioCtx={audioCtx}/>
             <p></p>

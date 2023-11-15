@@ -49,7 +49,7 @@ function App() {
 
     return (
         <>
-            <h1>Oscillator with frequency slider</h1>
+            <h1>Synthesis AM: Ring Modulator</h1>
             <p></p>
             <AudioContextComponent audioCtx={audioCtx}/>
             <p></p>

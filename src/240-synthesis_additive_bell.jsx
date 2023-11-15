@@ -75,7 +75,7 @@ function App() {
 
     return (
         <>
-            <h1>Oscillator with frequency slider and type selector</h1>
+            <h1>Additive Synthesis: Bell Example</h1>
             <p></p>
             <AudioContextComponent audioCtx={audioCtx}/>
             <p></p>

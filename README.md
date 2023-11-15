@@ -30,3 +30,6 @@ Examples:
   - 250-synthesis-fm-adv.jsx
   - 260-synthesis_wavetable.jsx
   - 270-synthesis_additive_bell_with_waaclock.jsx
+  - lab04_es01bc.jsx
+  - lab04_es02.jsx
+  - lab04_es03.jsx
