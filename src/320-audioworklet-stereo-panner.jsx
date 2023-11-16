@@ -15,7 +15,6 @@ function App() {
 
   const [signalEnergy, setSignalEnergy] = useState({ enIn: 0, enOut: Array(2).fill(0)});
 
-
   useEffect(() => {
     const update = async () => {
 
@@ -61,9 +60,9 @@ function App() {
         handleChange={(ev) => setStereoPannerPan(ev.target.value)}
       />
        <p></p>
-       <Slider label="Input Energy" value={Math.round( 10*Math.log(signalEnergy.enIn) )} readOnly /><br/>
-       <Slider label="Input Energy" value={Math.round( 10*Math.log(signalEnergy.enOut[0]) )} readOnly /><br/>
-       <Slider label="Input Energy" value={Math.round( 10*Math.log(signalEnergy.enOut[1]) )} readOnly /><br/>
+       <Slider label="Input Energy" className="slider-width-20perc" value={Math.round( 10*Math.log(signalEnergy.enIn) )} readOnly /><br/>
+       <Slider label="Input Energy" className="slider-width-20perc" value={Math.round( 10*Math.log(signalEnergy.enOut[0]) )} readOnly /><br/>
+       <Slider label="Input Energy" className="slider-width-20perc" value={Math.round( 10*Math.log(signalEnergy.enOut[1]) )} readOnly /><br/>
        <p></p>
       { /* <AudioAnalyser analyser={audioNodes?.analyser} sampleRate={audioCtx?.sampleRate}/> */ }
     </>
