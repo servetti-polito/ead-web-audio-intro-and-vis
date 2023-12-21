@@ -105,7 +105,7 @@ function App() {
 
   return (
     <>
-      <h1>Lab 04 - es 01 (B and C)</h1>
+      <h1>Lab 04 - es 01 (C)</h1>
       <p></p>
       <AudioContextComponent audioCtx={audioCtx} />
       <p></p>

@@ -12,6 +12,7 @@ clock.start();
 function ADSR(gainNode, startTime, attack, decay, sustain, release) {
     const targetGain = gainNode.gain.value;
     gainNode.gain.value = 0;
+    console.log(startTime, typeof startTime, parseFloat(startTime));
     if (startTime !== 0) {
         gainNode.gain.setValueAtTime(0, startTime);
         if (attack !== 0)
@@ -143,20 +144,20 @@ function App() {
             <Slider label={"Attack Time"}
                     name="attackTime" min={0.1} max={2} step={0.1}
                     value={attackTime}
-                    handleChange={(ev) => setAttackTime(ev.target.value)}
+                    handleChange={(ev) => setAttackTime(Number(ev.target.value))}
             />
             <p></p>
             <Slider label={"Release Time"}
                     name="releaseTime" min={0.1} max={5} step={0.1}
                     value={releaseTime}
-                    handleChange={(ev) => setReleaseTime(ev.target.value)}
+                    handleChange={(ev) => setReleaseTime(Number(ev.target.value))}
             />
             <p></p>
             <Select label={"Note"}
                     selected={defaultTone}
                     values={allLabels}
                     handleChange={(ev) => {
-                        setNoteFrequency(fromToneToFreq(ev.target.value));
+                        setNoteFrequency(fromToneToFreq(Number(ev.target.value)));
                     }}/>
             <p></p>
             <AudioAnalyser analyser={analyser} sampleRate={audioCtx?.sampleRate}/>
