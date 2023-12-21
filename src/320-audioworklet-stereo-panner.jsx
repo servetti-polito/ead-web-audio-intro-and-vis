@@ -60,9 +60,9 @@ function App() {
         handleChange={(ev) => setStereoPannerPan(ev.target.value)}
       />
        <p></p>
-       <Slider label="Input Energy" className="slider-width-20perc" value={Math.round( 10*Math.log(signalEnergy.enIn) )} readOnly /><br/>
-       <Slider label="Input Energy" className="slider-width-20perc" value={Math.round( 10*Math.log(signalEnergy.enOut[0]) )} readOnly /><br/>
-       <Slider label="Input Energy" className="slider-width-20perc" value={Math.round( 10*Math.log(signalEnergy.enOut[1]) )} readOnly /><br/>
+       <Slider label="Energy (dB) - Input (Mono Channel)" className="slider-width-20perc" value={Math.round( 10*Math.log(signalEnergy.enIn) )} readOnly /><br/>
+       <Slider label="Energy (dB) - Output Left Channel" className="slider-width-20perc" value={Math.round( 10*Math.log(signalEnergy.enOut[0]) )} readOnly /><br/>
+       <Slider label="Energy (dB) - Output Right Channel" className="slider-width-20perc" value={Math.round( 10*Math.log(signalEnergy.enOut[1]) )} readOnly /><br/>
        <p></p>
       { /* <AudioAnalyser analyser={audioNodes?.analyser} sampleRate={audioCtx?.sampleRate}/> */ }
     </>
